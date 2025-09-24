@@ -1,18 +1,20 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-
-COPY MovieManager.sln ./
-COPY MovieManager/*.csproj ./MovieManager/
-COPY MovieManager.Tests/*.csproj ./MovieManager.Tests/
-
-RUN dotnet restore MovieManager.sln
-
+COPY ["MovieManager/MovieManager.csproj", "MovieManager/"]
+RUN dotnet restore "MovieManager/MovieManager.csproj"
 COPY . .
+WORKDIR "/src/MovieManager"
+RUN dotnet build "MovieManager.csproj" -c Release -o /app/build
 
-WORKDIR /src/MovieManager
-RUN dotnet publish -c Release -o /app/publish
+FROM build AS publish
+RUN dotnet publish "MovieManager.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/publish .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MovieManager.dll"]
