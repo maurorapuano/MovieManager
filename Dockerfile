@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY *.sln .
-COPY MovieManager/*.csproj ./MovieManager/
+COPY MovieManager.API/*.csproj ./MovieManager/
 COPY MovieManager.Tests/*.csproj ./MovieManager.Tests/
 RUN dotnet restore
 
