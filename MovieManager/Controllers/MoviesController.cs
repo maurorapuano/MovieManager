@@ -74,15 +74,23 @@ namespace MovieManager.Controllers
                 if (error != null)
                     return BadRequest(error);
 
-                var newMovie = await _movieService.CreateMovieAsync(new Movie
+                var newMovie = new Movie
                 {
                     Title = movie.Title,
                     ReleaseYear = movie.ReleaseYear,
                     Director = movie.Director,
                     Description = movie.Description,
-                });
+                };
 
-                return CreatedAtAction(nameof(GetMovieById), new { id = newMovie.Id }, newMovie);
+                var existingMovie = _movieService.GetMovieByData(newMovie.Title, newMovie.Director, newMovie.ReleaseYear);
+                if (existingMovie != null)
+                {
+                    return BadRequest("Movie already exists.");
+                }
+
+                var newMovieCreated = await _movieService.CreateMovieAsync(newMovie);
+
+                return CreatedAtAction(nameof(GetMovieById), new { id = newMovieCreated.Id }, newMovieCreated);
             }
             catch (Exception ex)
             {
