@@ -59,7 +59,9 @@ builder.Services.AddHttpClient<MovieService, MovieService>();
 builder.Services.AddScoped<AuthService>();
 
 //JWT Settings
-var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY") ?? builder.Configuration["Jwt:Key"]);
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? builder.Configuration["Jwt:Key"];
+Console.WriteLine("JWT_KEY length: " + (jwtKey?.Length ?? 0));
+var key = Encoding.UTF8.GetBytes(jwtKey);
 var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? builder.Configuration["Jwt:Issuer"];
 var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? builder.Configuration["Jwt:Audience"];
 
