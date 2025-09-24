@@ -70,7 +70,7 @@ namespace MovieManager.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { error = ex.Message });
             }
             
         }
@@ -116,7 +116,7 @@ namespace MovieManager.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { error = ex.Message });
             }           
 
         }
