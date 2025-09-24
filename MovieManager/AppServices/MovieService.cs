@@ -40,9 +40,9 @@ namespace MovieManager.Services
         {
             Movie? existingMovie = await _context.Movies
                 .FirstOrDefaultAsync(m =>
-                    m.Title == title &&
-                    m.Director == director &&
-                    m.ReleaseYear == releaseYear
+                    m.Title.Equals(title, StringComparison.OrdinalIgnoreCase) &&
+                    m.Director.Equals(director, StringComparison.OrdinalIgnoreCase) &&
+                    m.ReleaseYear.Equals(releaseYear, StringComparison.OrdinalIgnoreCase)
                 );
 
             return existingMovie;
