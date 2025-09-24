@@ -38,7 +38,12 @@ namespace MovieManager.Services
         }
         public async Task<Movie> GetMovieByData(string title, string director, string releaseYear)
         {
-            Movie existingMovie = await _context.Movies.FindAsync([title, director, releaseYear]);
+            Movie? existingMovie = await _context.Movies
+                .FirstOrDefaultAsync(m =>
+                    m.Title == title &&
+                    m.Director == director &&
+                    m.ReleaseYear == releaseYear
+                );
 
             return existingMovie;
         }
