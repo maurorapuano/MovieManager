@@ -60,8 +60,9 @@ builder.Services.AddScoped<AuthService>();
 
 //JWT Settings
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? builder.Configuration["Jwt:Key"];
-Console.WriteLine("JWT_KEY length: " + (jwtKey?.Length ?? 0));
+Console.WriteLine("JWT_KEY length: " + jwtKey);
 var key = Encoding.UTF8.GetBytes(jwtKey);
+Console.WriteLine("Key: " + key);
 var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? builder.Configuration["Jwt:Issuer"];
 var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? builder.Configuration["Jwt:Audience"];
 
