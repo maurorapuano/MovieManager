@@ -104,15 +104,15 @@ namespace MovieManager.Controllers
         {
             try
             {
-                var searchMovie = await _movieService.CreateMovieAsync(new Movie
+                var updateMovie = new Movie
                 {
                     Title = movie.Title,
                     ReleaseYear = movie.ReleaseYear,
                     Director = movie.Director,
                     Description = movie.Description,
-                });
+                };
 
-                var existingMovie = await _movieService.UpdateMovieAsync(id, searchMovie);
+                var existingMovie = await _movieService.UpdateMovieAsync(id, updateMovie);
                 if(existingMovie == null)
                 {
                     return NotFound(new { message = "Movie not found." });

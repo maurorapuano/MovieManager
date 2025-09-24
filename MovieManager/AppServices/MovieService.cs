@@ -79,10 +79,10 @@ namespace MovieManager.Services
                     return null;
                 }
 
-                existingMovie.Title = movie.Title;
-                existingMovie.Director = movie.Director;
-                existingMovie.ReleaseYear = movie.ReleaseYear;
-                existingMovie.Description = movie.Description;
+                existingMovie.Title = movie.Title ?? existingMovie.Title;
+                existingMovie.Director = movie.Director ?? existingMovie.Director;
+                existingMovie.ReleaseYear = movie.ReleaseYear ?? existingMovie.ReleaseYear;
+                existingMovie.Description = movie.Description ?? existingMovie.Description;
 
                 _context.Movies.Update(existingMovie);
                 await _context.SaveChangesAsync();
