@@ -60,9 +60,7 @@ builder.Services.AddScoped<AuthService>();
 
 //JWT Settings
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? builder.Configuration["Jwt:Key"];
-Console.WriteLine("JWT_KEY length: " + jwtKey);
 var key = Encoding.UTF8.GetBytes(jwtKey);
-Console.WriteLine("Key: " + key);
 var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? builder.Configuration["Jwt:Issuer"];
 var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? builder.Configuration["Jwt:Audience"];
 
@@ -100,7 +98,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5285";
-app.Urls.Add($"http://*:{port}");
+app.Urls.Add($"https://*:{port}");
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
