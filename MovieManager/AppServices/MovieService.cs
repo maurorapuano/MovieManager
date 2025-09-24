@@ -25,76 +25,118 @@ namespace MovieManager.Services
         }
         public async Task<List<Movie>> GetMovies()
         {
-            List<Movie> movies = await _context.Movies.ToListAsync();
+            try
+            {
+                List<Movie> movies = await _context.Movies.ToListAsync();
 
-            return movies;
+                return movies;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while getting all movies.", ex);
+            }
         }
 
         public async Task<Movie> GetMovieById(int id)
         {
-            Movie existingMovie = await _context.Movies.FindAsync(id);
+            try
+            {
+                Movie existingMovie = await _context.Movies.FindAsync(id);
 
-            return existingMovie;
+                return existingMovie;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while getting movie by id.", ex);
+            }
         }
         public async Task<Movie> GetMovieByData(string title, string director, string releaseYear)
         {
-            Movie? existingMovie = await _context.Movies
-                .FirstOrDefaultAsync(m =>
-                    m.Title.Equals(title, StringComparison.OrdinalIgnoreCase) &&
-                    m.Director.Equals(director, StringComparison.OrdinalIgnoreCase) &&
-                    m.ReleaseYear.Equals(releaseYear, StringComparison.OrdinalIgnoreCase)
-                );
+            try
+            {
+                Movie? existingMovie = await _context.Movies
+                    .FirstOrDefaultAsync(m =>
+                        m.Title.ToLower() == title.ToLower() &&
+                        m.Director.ToLower() == director.ToLower() &&
+                        m.ReleaseYear.ToLower() == releaseYear.ToLower()
+                    );
 
-            return existingMovie;
+                return existingMovie;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while getting movie by data.", ex);
+            }
         }
 
         public async Task<Movie> UpdateMovieAsync(int id, Movie movie)
         {
-            Movie existingMovie = await _context.Movies.FindAsync(id);
-            if (existingMovie == null)
+            try
             {
-                return null;
+                Movie existingMovie = await _context.Movies.FindAsync(id);
+                if (existingMovie == null)
+                {
+                    return null;
+                }
+
+                existingMovie.Title = movie.Title;
+                existingMovie.Director = movie.Director;
+                existingMovie.ReleaseYear = movie.ReleaseYear;
+                existingMovie.Description = movie.Description;
+
+                _context.Movies.Update(existingMovie);
+                await _context.SaveChangesAsync();
+
+                return existingMovie;
             }
-
-            existingMovie.Title = movie.Title;
-            existingMovie.Director = movie.Director;
-            existingMovie.ReleaseYear = movie.ReleaseYear;
-            existingMovie.Description = movie.Description;
-
-            _context.Movies.Update(existingMovie);
-            await _context.SaveChangesAsync();
-
-            return existingMovie;
+            catch (Exception ex)
+            {
+                throw new Exception("Error while updating movie.", ex);
+            }
         }
 
         public async Task<Movie> CreateMovieAsync(Movie movie)
         {
-            Movie newMovie = new Movie
+            try
             {
-                Title = movie.Title,
-                Director = movie.Director,
-                ReleaseYear = movie.ReleaseYear,
-                Description = movie.Description,
-            };
+                Movie newMovie = new Movie
+                {
+                    Title = movie.Title,
+                    Director = movie.Director,
+                    ReleaseYear = movie.ReleaseYear,
+                    Description = movie.Description,
+                };
 
-            _context.Movies.Add(newMovie);
-            await _context.SaveChangesAsync();
+                _context.Movies.Add(newMovie);
+                await _context.SaveChangesAsync();
 
-            return newMovie;
+                return newMovie;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while creating movie.", ex);
+            }
         }
 
         public async Task<string> DeleteMovieAsync(int id)
         {
-            Movie existingMovie = await _context.Movies.FindAsync(id);
-            if (existingMovie == null)
+            try
             {
-                return null;
+                Movie existingMovie = await _context.Movies.FindAsync(id);
+                if (existingMovie == null)
+                {
+                    return null;
+                }
+
+                _context.Movies.Remove(existingMovie);
+                await _context.SaveChangesAsync();
+
+                return existingMovie.Title;
             }
-
-            _context.Movies.Remove(existingMovie);
-            await _context.SaveChangesAsync();
-
-            return existingMovie.Title;
+            catch (Exception ex)
+            {
+                throw new Exception("Error while deleting movie.", ex);
+            }
         }
 
         public async Task<List<Movie>> GetStarWarsMovies()

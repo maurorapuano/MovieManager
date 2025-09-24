@@ -53,7 +53,7 @@ namespace MovieManager.Controllers
                 var existingMovie = await _movieService.GetMovieById(id);
                 if (existingMovie == null)
                 {
-                    return NotFound("Movie not found.");
+                    return NotFound(new { message = "Movie not found." });
                 }
 
                 return Ok(existingMovie);
@@ -82,10 +82,10 @@ namespace MovieManager.Controllers
                     Description = movie.Description,
                 };
 
-                var existingMovie = _movieService.GetMovieByData(newMovie.Title, newMovie.Director, newMovie.ReleaseYear);
+                var existingMovie = await _movieService.GetMovieByData(newMovie.Title, newMovie.Director, newMovie.ReleaseYear);
                 if (existingMovie != null)
                 {
-                    return BadRequest("Movie already exists.");
+                    return Ok(new { message = "Movie already exists." });
                 }
 
                 var newMovieCreated = await _movieService.CreateMovieAsync(newMovie);
@@ -115,7 +115,7 @@ namespace MovieManager.Controllers
                 var existingMovie = await _movieService.UpdateMovieAsync(id, searchMovie);
                 if(existingMovie == null)
                 {
-                    return NotFound("Movie not found.");
+                    return NotFound(new { message = "Movie not found." });
                 }
 
                 return CreatedAtAction(nameof(GetMovieById), new { id = existingMovie.Id }, existingMovie);
@@ -135,7 +135,7 @@ namespace MovieManager.Controllers
                 string existingMovie = await _movieService.DeleteMovieAsync(id);
                 if (existingMovie == null)
                 {
-                    return NotFound("Movie not found.");
+                    return NotFound(new { message = "Movie not found." });
                 }
 
                 return Ok(new { message = "Movie removed succesfully." });

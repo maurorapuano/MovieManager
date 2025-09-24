@@ -98,7 +98,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5285";
-app.Urls.Add($"http://*:{port}");
+app.Urls.Add($"https://*:{port}");
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
