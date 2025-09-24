@@ -100,7 +100,7 @@ namespace MovieManager.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<MovieResponseDTO>> UpdateMovie(int id, [FromBody] MovieDTO movie)
+        public async Task<ActionResult<MovieResponseDTO>> UpdateMovie(int id, [FromBody] UpdateMovieDTO movie)
         {
             try
             {
