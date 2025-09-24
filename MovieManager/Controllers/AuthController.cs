@@ -94,9 +94,9 @@ namespace MovieManager.Controllers
 
                 var claims = new[]
                 {
-                new Claim(ClaimTypes.Name, existingUser.Username),
-                new Claim(ClaimTypes.Role, existingUser.Role.Name)
-            };
+                    new Claim(ClaimTypes.Name, existingUser.Username),
+                    new Claim(ClaimTypes.Role, existingUser.Role.Name)
+                };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
