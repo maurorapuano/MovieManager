@@ -38,7 +38,7 @@ dotnet run --project MovieManager
 ```
 
 ### 🎥 Endpoints
-- (Protected: requires Authorization: Bearer {token})
+(Protected: requires Authorization: Bearer {token})
 
 - **GET /api/movies** → Get all movies
 
