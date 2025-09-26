@@ -37,15 +37,25 @@ dotnet ef database update --project MovieManager
 dotnet run --project MovieManager
 ```
 
-### 🎥 Endpoints
+## 🎥 Endpoints
+
+### Authentication
+- **POST** `/api/auth/signup` – Register a new user  
+- **POST** `/api/auth/login` – Log in and receive a JWT token  
+
+#### Roles
+- **Role 1 = Admin** → Has full access, including adding, editing, and deleting movies.  
+- **Role 2 = Regular** → Can only view movies. 
+
+### Movies
 (Protected: requires Authorization: Bearer {token})
 
-- **GET /api/movies** → Get all movies
+- **GET** /api/movies → Get all movies
 
-- **GET /api/movies/{id}** → Get movie by ID
+- **GET** /api/movies/{id} → Get movie by ID
 
-- **POST /api/movies** → Add new movie
+- **POST** /api/movies → Add new movie
 
-- **PUT /api/movies/{id}** → Update movie
+- **PUT** /api/movies/{id} → Update movie
 
-- **DELETE /api/movies/{id}** → Delete movie
+- **DELETE** /api/movies/{id} → Delete movie

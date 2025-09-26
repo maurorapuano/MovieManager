@@ -29,6 +29,10 @@ namespace MovieManager.Controllers
             _movieService = movieService;
         }
 
+        /// <summary>
+        /// Get all movies.
+        /// </summary>
+        /// <response code="200">Returns the list of movies</response>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<IEnumerable<MovieResponseDTO>>> GetMovies()
@@ -44,6 +48,12 @@ namespace MovieManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Get a movie by ID (Regular only).
+        /// </summary>
+        /// <param name="id">Movie ID</param>
+        /// <response code="200">Returns the movie</response>
+        /// <response code="404">Movie not found</response>
         [HttpGet("{id}")]
         [Authorize(Roles = "Regular")]
         public async Task<ActionResult<MovieResponseDTO>> GetMovieById(int id)
@@ -64,6 +74,22 @@ namespace MovieManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a new movie (Admin only).
+        /// </summary>
+        /// <remarks>
+        /// Example request:
+        /// {
+        ///   "title": "The Batman",
+        ///   "director": "Matt Reeves",
+        ///   "releaseYear": "2022",
+        ///   "description": "A darker take on the Batman story."
+        /// }
+        /// </remarks>
+        /// <response code="201">Movie created successfully</response>
+        /// <response code="400">Invalid request</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden (only Admins can add movies)</response>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<MovieResponseDTO>> CreateMovie([FromBody] MovieDTO movie)
@@ -98,6 +124,24 @@ namespace MovieManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing movie (Admin only).
+        /// </summary>
+        /// <param name="id">Movie ID</param>
+        /// <remarks>
+        /// Example request:
+        /// {
+        ///   "title": "The Batman",
+        ///   "director": "Matt Reeves",
+        ///   "releaseYear": "2022",
+        ///   "description": "Updated description."
+        /// }
+        /// </remarks>
+        /// <response code="200">Movie updated successfully</response>
+        /// <response code="400">Invalid request</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden (only Admins can update movies)</response>
+        /// <response code="404">Movie not found</response>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<MovieResponseDTO>> UpdateMovie(int id, [FromBody] UpdateMovieDTO movie)
@@ -126,6 +170,14 @@ namespace MovieManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete a movie (Admin only).
+        /// </summary>
+        /// <param name="id">Movie ID</param>
+        /// <response code="200">Movie deleted successfully</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden (only Admins can delete movies)</response>
+        /// <response code="404">Movie not found</response>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteMovie(int id)
@@ -146,6 +198,10 @@ namespace MovieManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Synchronize Star Wars movies into the database.
+        /// </summary>
+        /// <response code="200">If the movies were added successfully</response>
         [HttpPost("sync")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> SyncStarWarsMovies()

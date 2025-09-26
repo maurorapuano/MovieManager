@@ -30,6 +30,16 @@ namespace MovieManager.Controllers
             _service = authService;
         }
 
+        /// <summary>
+        /// Register a new user (Admin or Regular)
+        /// </summary>
+        /// <remarks>
+        /// Roles:
+        /// - 1 = Admin (can add, edit, delete movies)
+        /// - 2 = Regular (can only view movies)
+        /// </remarks>
+        /// <response code="200">User registered successfully</response>
+        /// <response code="400">Invalid request</response>
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp(SignUpDTO signUpDTO)
         {
@@ -75,6 +85,23 @@ namespace MovieManager.Controllers
             
         }
 
+        /// <summary>
+        /// Authenticate a user and get a JWT token.
+        /// </summary>
+        /// <remarks>
+        /// Example request:
+        /// {
+        ///   "username": "adminuser",
+        ///   "password": "P@ssw0rd!"
+        /// }
+        ///
+        /// Example response:
+        /// {
+        ///   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        /// }
+        /// </remarks>
+        /// <response code="200">Authentication successful, returns JWT token</response>
+        /// <response code="401">Invalid credentials</response>
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
