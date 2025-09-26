@@ -39,12 +39,13 @@ dotnet run --project MovieManager
 
 ### 🎥 Endpoints
 - (Protected: requires Authorization: Bearer {token})
--**GET /api/movies** → Get all movies
 
--**GET /api/movies/{id}** → Get movie by ID
+- **GET /api/movies** → Get all movies
 
--**POST /api/movies** → Add new movie
+- **GET /api/movies/{id}** → Get movie by ID
 
--**PUT /api/movies/{id}** → Update movie
+- **POST /api/movies** → Add new movie
 
--**DELETE /api/movies/{id}** → Delete movie
+- **PUT /api/movies/{id}** → Update movie
+
+- **DELETE /api/movies/{id}** → Delete movie
